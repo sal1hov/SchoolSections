@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container text-center mt-5">
+    <h1 class="display-4">Добро пожаловать в систему записи в школьные кружки!</h1>
+    <p class="lead">
+        Этот сайт создан для удобной записи учащихся в школьные кружки.
+        Здесь вы можете зарегистрироваться как учащийся, родитель или классный руководитель,
+        чтобы управлять процессом записи и участия в кружках.
+    </p>
+
+    <div class="mt-4">
+        <a href="{% url 'login' %}" class="btn btn-primary btn-lg mx-2">Войти</a>
+        <a href="{% url 'register_student' %}" class="btn btn-success btn-lg mx-2">Регистрация</a>
+    </div>
+
+    <div class="mt-5">
+        <h3>Кто вы?</h3>
+        <p>Выберите тип регистрации:</p>
+        <div class="d-flex justify-content-center">
+            <a href="{% url 'register_student' %}" class="btn btn-outline-primary mx-2">Учащийся</a>
+            <a href="{% url 'register_parent' %}" class="btn btn-outline-primary mx-2">Родитель</a>
+            <a href="{% url 'register_teacher' %}" class="btn btn-outline-primary mx-2">Классный руководитель</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
