@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Личный кабинет администратора</h2>
+<p>Добро пожаловать, {{ user.username }}!</p>
+
+<!-- Уведомления -->
+{% if messages %}
+    <div class="mt-4">
+        {% for message in messages %}
+            <div class="alert {% if message.tags == 'error' %}alert-danger{% else %}alert-{{ message.tags }}{% endif %} alert-dismissible fade show" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+
+<!-- Фильтр по ролям -->
+<h3>Фильтр по ролям</h3>
+<form method="get" class="mb-4">
+    <select name="role" class="form-control">
+        <option value="">Все роли</option>
+        <option value="student" {% if request.GET.role == 'student' %}selected{% endif %}>Учащийся</option>
+        <option value="parent" {% if request.GET.role == 'parent' %}selected{% endif %}>Родитель</option>
+        <option value="teacher" {% if request.GET.role == 'teacher' %}selected{% endif %}>Учитель</option>
+        <option value="admin" {% if request.GET.role == 'admin' %}selected{% endif %}>Администратор</option>
+    </select>
+    <button type="submit" class="btn btn-primary mt-2">Применить фильтр</button>
+</form>
+
+<!-- Список пользователей -->
+<h3>Список пользователей</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Имя пользователя</th>
+            <th>Роль</th>
+            <th>Действия</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in users %}
+            <tr>
+                <td>{{ user.username }}</td>
+                <td>{{ user.role }}</td>
+                <td>
+                    <a href="{% url 'edit_user' user.id %}" class="btn btn-warning btn-sm">Редактировать</a>
+                    <form method="post" style="display:inline;">
+                        {% csrf_token %}
+                        <input type="hidden" name="user_id" value="{{ user.id }}">
+                        <button type="submit" name="delete_user" class="btn btn-danger btn-sm">Удалить</button>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<!-- Внесение кружков -->
+<h3>Создать кружок</h3>
+<form method="post" class="mb-4">
+    {% csrf_token %}
+    <div class="form-group">
+        <label for="club_name">Название кружка</label>
+        <input type="text" name="club_name" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <label for="total_seats">Количество мест</label>
+        <input type="number" name="total_seats" class="form-control" required>
+    </div>
+    <button type="submit" name="create_club" class="btn btn-success">Создать кружок</button>
+</form>
+
+<!-- Список кружков -->
+<h3>Список кружков</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Название кружка</th>
+            <th>Всего мест</th>
+            <th>Свободных мест</th>
+            <th>Действия</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for club in clubs %}
+            <tr>
+                <td>{{ club.name }}</td>
+                <td>{{ club.total_seats }}</td>
+                <td>{{ club.available_seats }}</td>
+                <td>
+                    <a href="{% url 'edit_club' club.id %}" class="btn btn-warning btn-sm">Редактировать</a>
+                    <form method="post" style="display:inline;">
+                        {% csrf_token %}
+                        <input type="hidden" name="club_id" value="{{ club.id }}">
+                        <button type="submit" name="delete_club" class="btn btn-danger btn-sm">Удалить</button>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

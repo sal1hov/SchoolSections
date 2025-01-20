@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Личный кабинет ученика</h2>
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title">Добро пожаловать, {{ user.encrypted_name }}!</h5>
+            <p class="card-text">Ваш класс: {{ user.student.grade }}</p>
+            <p class="card-text">Номер школьного билета: {{ user.student.school_ticket_number }}</p>
+        </div>
+    </div>
+
+    {% if messages %}
+        <div class="mb-4">
+            {% for message in messages %}
+                <div class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-info{% endif %}" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <h3>Доступные кружки</h3>
+    <div class="row">
+        {% for club in clubs %}
+            <div class="col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ club.name }}</h5>
+                        <p class="card-text">
+                            Свободных мест: {{ club.available_seats }} / {{ club.total_seats }}
+                        </p>
+                        {% if not enrolled_club %}
+                            <form method="post" class="d-inline">
+                                {% csrf_token %}
+                                <input type="hidden" name="club_id" value="{{ club.id }}">
+                                <button type="submit" name="enroll" class="btn btn-success">Записаться</button>
+                            </form>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    {% if enrolled_club %}
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title">Ваш кружок</h5>
+                <p class="card-text">Вы записаны в кружок: {{ enrolled_club.club.name }}</p>
+                <form method="post" class="d-inline">
+                    {% csrf_token %}
+                    <button type="submit" name="cancel" class="btn btn-warning">Отменить запись</button>
+                </form>
+            </div>
+        </div>
+    {% endif %}
+
+    <div class="mt-4">
+        <a href="{% url 'password_change' %}" class="btn btn-primary">Сменить пароль</a>
+    </div>
+</div>
+{% endblock %}

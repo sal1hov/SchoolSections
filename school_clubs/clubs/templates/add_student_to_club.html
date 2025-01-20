@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Добавить ученика в кружок</h2>
+    <form method="post" class="mt-4">
+        {% csrf_token %}
+
+        <!-- Поле "Ученик" -->
+        <div class="form-group">
+            <label for="{{ form.student.id_for_label }}">{{ form.student.label }}</label>
+            {{ form.student }}
+            {% if form.student.help_text %}
+                <small class="form-text text-muted">{{ form.student.help_text }}</small>
+            {% endif %}
+            {% if form.student.errors %}
+                <div class="alert alert-danger mt-2">
+                    {{ form.student.errors }}
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Поле "Кружок" -->
+        <div class="form-group">
+            <label for="{{ form.club.id_for_label }}">{{ form.club.label }}</label>
+            {{ form.club }}
+            {% if form.club.help_text %}
+                <small class="form-text text-muted">{{ form.club.help_text }}</small>
+            {% endif %}
+            {% if form.club.errors %}
+                <div class="alert alert-danger mt-2">
+                    {{ form.club.errors }}
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Кнопка отправки формы -->
+        <button type="submit" class="btn btn-primary">Добавить</button>
+    </form>
+</div>
+{% endblock %}

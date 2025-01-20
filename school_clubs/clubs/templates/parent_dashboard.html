@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Личный кабинет родителя</h2>
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title">Добро пожаловать, {{ user.encrypted_name }}!</h5>
+            <p class="card-text">Ваш ребенок: {{ user.parent.student_name }}</p>
+        </div>
+    </div>
+
+    {% if messages %}
+        <div class="mb-4">
+            {% for message in messages %}
+                <div class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-info{% endif %}" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    {% if student %}
+        {% if not student.is_approved_by_parent %}
+            <form method="post" class="mb-4">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-success">Утвердить учащегося</button>
+            </form>
+        {% else %}
+            <div class="alert alert-success" role="alert">
+                Учащийся уже утвержден.
+            </div>
+        {% endif %}
+    {% else %}
+        <div class="alert alert-warning" role="alert">
+            Учащийся не найден.
+        </div>
+    {% endif %}
+
+</div>
+{% endblock %}

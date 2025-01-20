@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Личный кабинет учителя</h2>
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title">Добро пожаловать, {{ user.encrypted_name }}!</h5>
+            <p class="card-text">Ваш класс: {{ user.teacher.grade }}</p>
+        </div>
+    </div>
+
+    {% if messages %}
+        <div class="mb-4">
+            {% for message in messages %}
+                <div class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-info{% endif %}" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <h3>Список учащихся класса</h3>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ФИО учащегося</th>
+                <th>Кружок</th>
+                <th>Статус подтверждения</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for student_data in students_with_clubs %}
+                <tr>
+                    <td>{{ student_data.student.user.encrypted_name }}</td>
+                    <td>{{ student_data.club_name }}</td>
+                    <td>
+                        {% if student_data.student.is_approved_by_teacher %}
+                            <span class="text-success">Подтвержден</span>
+                        {% elif student_data.student.is_approved_by_parent %}
+                            <span class="text-warning">Ожидает подтверждения</span>
+                        {% else %}
+                            <span class="text-danger">Не утвержден родителем</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if student_data.student.is_approved_by_parent and not student_data.student.is_approved_by_teacher %}
+                            <form method="post" class="d-inline">
+                                {% csrf_token %}
+                                <input type="hidden" name="user_id" value="{{ student_data.student.user.id }}">
+                                <button type="submit" class="btn btn-success btn-sm">Подтвердить</button>
+                            </form>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Таблица с доступными кружками -->
+    <h3 class="mt-5">Доступные кружки</h3>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Название кружка</th>
+                <th>Общее количество мест</th>
+                <th>Доступные места</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for club in clubs %}
+                <tr>
+                    <td>{{ club.name }}</td>
+                    <td>{{ club.total_seats }}</td>
+                    <td>{{ club.available_seats }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
