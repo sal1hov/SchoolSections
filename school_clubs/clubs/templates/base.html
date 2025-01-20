@@ -1,0 +1,88 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Школьные кружки</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <style>
+        /* Добавляем стили для привязки подвала к низу страницы */
+        html, body {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+        }
+        .container {
+            flex: 1;
+        }
+        footer {
+            flex-shrink: 0;
+            background-color: #f8f9fa; /* Цвет фона подвала */
+            padding: 20px 0;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container text-center">
+        <!-- Шапка -->
+        <header class="my-4">
+            <h1>Школьные кружки</h1>
+            <nav class="d-flex justify-content-center flex-wrap">
+                <a href="{% url 'home' %}" class="btn btn-outline-primary m-2">Главная</a>
+
+                <!-- Кнопки для неавторизованных пользователей -->
+                {% if not user.is_authenticated %}
+                    <a href="{% url 'login' %}" class="btn btn-outline-info m-2">Войти</a>
+                {% else %}
+                    <!-- Кнопки для авторизованных пользователей -->
+                    <span class="btn btn-outline-info m-2">Привет, {{ user.username }}!</span>
+
+                    <!-- Кнопка "Личный кабинет" -->
+                    {% if user.role == 'student' %}
+                        <a href="{% url 'student_dashboard' %}" class="btn btn-outline-secondary m-2">Личный кабинет</a>
+                    {% elif user.role == 'parent' %}
+                        <a href="{% url 'parent_dashboard' %}" class="btn btn-outline-secondary m-2">Личный кабинет</a>
+                    {% elif user.role == 'teacher' %}
+                        <a href="{% url 'teacher_dashboard' %}" class="btn btn-outline-secondary m-2">Личный кабинет</a>
+                    {% elif user.role == 'admin' %}
+                        <a href="{% url 'admin_dashboard' %}" class="btn btn-outline-secondary m-2">Личный кабинет</a>
+                        <a href="/admin/" class="btn btn-outline-warning m-2">Django-админка</a>
+                    {% endif %}
+
+                    <!-- Кнопки для учителя -->
+                    {% if user.role == 'teacher' %}
+                        <a href="{% url 'create_club' %}" class="btn btn-outline-warning m-2">Создать кружок</a>
+                        <a href="{% url 'add_student_to_club' %}" class="btn btn-outline-warning m-2">Добавить ученика</a>
+                    {% endif %}
+
+                    <!-- Кнопки для администратора -->
+                    {% if user.role == 'admin' %}
+                        <a href="{% url 'manage_users' %}" class="btn btn-outline-warning m-2">Управление пользователями</a>
+                    {% endif %}
+
+                    <!-- Кнопка "Выйти" -->
+                    <a href="{% url 'logout' %}" class="btn btn-outline-danger m-2">Выйти</a>
+                {% endif %}
+            </nav>
+        </header>
+
+        <!-- Основное содержимое -->
+        <main class="my-4">
+            {% block content %}
+            <!-- Содержимое страницы будет здесь -->
+            {% endblock %}
+        </main>
+    </div>
+
+    <!-- Подвал -->
+    <footer>
+        <p>&copy; 2025 Ахметгалиев. Все права защищены.</p>
+    </footer>
+
+    <script src="{% static 'js/animation.js' %}"></script>
+</body>
+</html>
