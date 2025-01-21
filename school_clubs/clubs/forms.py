@@ -48,12 +48,23 @@ class StudentRegistrationForm(UserCreationForm):
             'password2': 'Повторите пароль для подтверждения.',
         }
 
+    def clean_username(self):
+        username = self.cleaned_data['username']
+        if User.objects.filter(username=username).exists():
+            raise ValidationError("Пользователь с таким именем уже существует.")
+        return username
+
+    def clean_school_ticket_number(self):
+        school_ticket_number = self.cleaned_data['school_ticket_number']
+        if Student.objects.filter(school_ticket_number=school_ticket_number).exists():
+            raise ValidationError("Учащийся с таким номером школьного билета уже зарегистрирован.")
+        return school_ticket_number
+
     def save(self, commit=True):
         user = super().save(commit=False)
-        user.role = 'student'  # Устанавливаем роль
+        user.role = 'student'
         if commit:
             user.save()
-            # Создаем запись в модели Student
             Student.objects.create(
                 user=user,
                 school_ticket_number=self.cleaned_data['school_ticket_number'],
@@ -65,7 +76,7 @@ class ParentRegistrationForm(UserCreationForm):
     encrypted_name = forms.CharField(
         max_length=255,
         label="ФИО родителя",
-        validators=[validate_name],  # Добавляем валидатор
+        validators=[validate_name],
         help_text="Введите ФИО родителя (только буквы и пробелы)."
     )
     student_name = forms.CharField(
@@ -88,12 +99,17 @@ class ParentRegistrationForm(UserCreationForm):
             'password2': 'Повторите пароль для подтверждения.',
         }
 
+    def clean_username(self):
+        username = self.cleaned_data['username']
+        if User.objects.filter(username=username).exists():
+            raise ValidationError("Пользователь с таким именем уже существует.")
+        return username
+
     def save(self, commit=True):
         user = super().save(commit=False)
-        user.role = 'parent'  # Устанавливаем роль
+        user.role = 'parent'
         if commit:
             user.save()
-            # Создаем запись в модели Parent
             Parent.objects.create(
                 user=user,
                 student_name=self.cleaned_data['student_name']
@@ -104,7 +120,7 @@ class TeacherRegistrationForm(UserCreationForm):
     encrypted_name = forms.CharField(
         max_length=255,
         label="ФИО учителя",
-        validators=[validate_name],  # Добавляем валидатор
+        validators=[validate_name],
         help_text="Введите ФИО учителя (только буквы и пробелы)."
     )
     grade = forms.IntegerField(
@@ -127,14 +143,17 @@ class TeacherRegistrationForm(UserCreationForm):
             'password2': 'Повторите пароль для подтверждения.',
         }
 
+    def clean_username(self):
+        username = self.cleaned_data['username']
+        if User.objects.filter(username=username).exists():
+            raise ValidationError("Пользователь с таким именем уже существует.")
+        return username
+
     def save(self, commit=True):
         user = super().save(commit=False)
-        user.role = 'teacher'  # Устанавливаем роль
+        user.role = 'teacher'
         if commit:
             user.save()
-            # Отладочный вывод
-            print("Данные grade:", self.cleaned_data['grade'])
-            # Создаем запись в модели Teacher
             Teacher.objects.create(
                 user=user,
                 grade=self.cleaned_data['grade']
