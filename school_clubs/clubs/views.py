@@ -394,3 +394,6 @@ def get_progress(request):
         'step_3_completed': user_progress.step_3_completed,
         'step_4_completed': user_progress.step_4_completed,
     })
+
+def about_author(request):
+    return render(request, 'about_author.html')
