@@ -14,6 +14,7 @@ from .forms import (
 from .models import Student, Parent, Teacher, Club, Enrollment
 import re  # Импортируем модуль для работы с регулярными выражениями
 from django.http import JsonResponse
+from django.urls import reverse
 
 User = get_user_model()
 
@@ -24,10 +25,14 @@ def home(request):
 # Регистрация ученика
 def register_student(request):
     if request.method == 'POST':
-        form = StudentRegistrationForm(request.POST)
+        form = StudentRegistrationForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect('home')
+            messages.success(request, "Учащийся успешно зарегистрирован. Теперь вы можете войти в систему.")  # Сообщение об успехе
+            return redirect(reverse('login'))  # Перенаправляем на страницу авторизации
+        else:
+            # Если форма невалидна, выведите ошибки в консоль для отладки
+            print(form.errors)
     else:
         form = StudentRegistrationForm()
     return render(request, 'register_student.html', {'form': form})
@@ -38,7 +43,10 @@ def register_parent(request):
         form = ParentRegistrationForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('home')
+            messages.success(request, "Родитель успешно зарегистрирован. Теперь вы можете войти в систему.")
+            return redirect(reverse('login'))  # Перенаправляем на страницу авторизации
+        else:
+            print(form.errors)  # Отладочный вывод ошибок
     else:
         form = ParentRegistrationForm()
     return render(request, 'register_parent.html', {'form': form})
@@ -49,7 +57,10 @@ def register_teacher(request):
         form = TeacherRegistrationForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('home')
+            messages.success(request, "Учитель успешно зарегистрирован. Теперь вы можете войти в систему.")
+            return redirect(reverse('login'))  # Перенаправляем на страницу авторизации
+        else:
+            print(form.errors)  # Отладочный вывод ошибок
     else:
         form = TeacherRegistrationForm()
     return render(request, 'register_teacher.html', {'form': form})

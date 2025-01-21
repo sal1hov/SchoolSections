@@ -20,7 +20,7 @@ class StudentRegistrationForm(UserCreationForm):
     encrypted_name = forms.CharField(
         max_length=255,
         label="ФИО учащегося",
-        validators=[validate_name],  # Добавляем валидатор
+        validators=[validate_name],
         help_text="Введите ФИО учащегося (только буквы и пробелы)."
     )
     school_ticket_number = forms.CharField(
@@ -33,15 +33,10 @@ class StudentRegistrationForm(UserCreationForm):
         validators=[MinValueValidator(1), MaxValueValidator(11)],
         help_text="Введите класс учащегося (от 1 до 11)."
     )
-    profile_picture = forms.ImageField(
-        label="Фото профиля",
-        required=False,
-        help_text="Загрузите фото профиля (формат JPG, размер не более 300 KB)."
-    )
 
     class Meta:
         model = User
-        fields = ['username', 'password1', 'password2', 'encrypted_name', 'school_ticket_number', 'grade', 'profile_picture']
+        fields = ['username', 'password1', 'password2', 'encrypted_name', 'school_ticket_number', 'grade']
         labels = {
             'username': 'Имя пользователя',
             'password1': 'Пароль',

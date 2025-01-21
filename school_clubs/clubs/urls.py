@@ -2,6 +2,7 @@ from django.urls import path
 from django.contrib.auth import views as auth_views
 from . import views
 from .views import tutorial_animation, save_progress, get_progress
+from .views import user_login
 
 
 urlpatterns = [
@@ -38,4 +39,5 @@ urlpatterns = [
     path('save_progress/', save_progress, name='save_progress'),
     path('save_progress/', save_progress, name='save_progress'),
     path('get_progress/', get_progress, name='get_progress'),
+    path('login/', user_login, name='login'),
 ]

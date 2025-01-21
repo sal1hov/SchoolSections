@@ -12,7 +12,6 @@ class User(AbstractUser):
     )
     role = models.CharField(max_length=10, choices=ROLES)
     encrypted_name = models.CharField(max_length=255)  # Поле для ФИО
-    profile_picture = models.ImageField(upload_to='profile_pictures/', null=True, blank=True)  # Новое поле
 
     # Указываем уникальные имена для обратных ссылок
     groups = models.ManyToManyField(
@@ -32,44 +31,12 @@ class User(AbstractUser):
         related_query_name="user",
     )
 
-    def save(self, *args, **kwargs):
-        """
-        Переопределяем метод save для автоматического создания связанных объектов
-        (Student, Parent, Teacher) в зависимости от роли пользователя.
-        """
-        # Сохраняем пользователя
-        super().save(*args, **kwargs)
-
-        # Автоматически создаем связанные объекты в зависимости от роли
-        if self.role == 'student' and not hasattr(self, 'student'):
-            Student.objects.create(user=self)
-        elif self.role == 'parent' and not hasattr(self, 'parent'):
-            Parent.objects.create(user=self)
-        elif self.role == 'teacher' and not hasattr(self, 'teacher'):
-            Teacher.objects.create(user=self)
-
-    def save(self, *args, **kwargs):
-        """
-        Переопределяем метод save для автоматического создания связанных объектов
-        (Student, Parent, Teacher) в зависимости от роли пользователя.
-        """
-        # Сохраняем пользователя
-        super().save(*args, **kwargs)
-
-        # Автоматически создаем связанные объекты в зависимости от роли
-        if self.role == 'student' and not hasattr(self, 'student'):
-            Student.objects.create(user=self)
-        elif self.role == 'parent' and not hasattr(self, 'parent'):
-            Parent.objects.create(user=self)
-        elif self.role == 'teacher' and not hasattr(self, 'teacher'):
-            Teacher.objects.create(user=self)
-
 class Student(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     school_ticket_number = models.CharField(max_length=20)
-    grade = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(11)])
-    is_approved_by_parent = models.BooleanField(default=False)  # Добавьте это поле
-    is_approved_by_teacher = models.BooleanField(default=False)  # Если нужно, добавьте и это поле
+    grade = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(11)], null=False, blank=False)
+    is_approved_by_parent = models.BooleanField(default=False)
+    is_approved_by_teacher = models.BooleanField(default=False)
 
     def __str__(self):
         return self.user.encrypted_name
