@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container my-5">
+    <!-- Заголовок -->
+    <h1 class="text-center mb-4">Об авторе</h1>
+
+    <!-- Основная информация -->
+    <div class="row">
+        <div class="col-md-12">
+            <p class="lead">Привет! Меня зовут Камил, и я начинающий разработчик.</p>
+            <p>Я только начинаю свой путь в мире программирования, но уже успел влюбиться в создание удобных и функциональных веб-приложений. Этот проект — мой первый шаг в изучении Django и веб-технологий.</p>
+            <p>Моя цель — постоянно учиться, развиваться и создавать проекты, которые будут полезны людям. Я верю, что даже небольшие шаги могут привести к большим результатам, и этот проект — начало моего пути.</p>
+        </div>
+    </div>
+
+    <!-- Навыки -->
+    <div class="my-5">
+        <h2 class="text-center mb-4">Мои навыки</h2>
+        <div class="row">
+            <div class="col-md-6">
+                <ul class="list-group">
+                    <li class="list-group-item">Python (Django)</li>
+                    <li class="list-group-item">HTML, CSS, JavaScript</li>
+                    <li class="list-group-item">Базы данных (SQL, PostgreSQL)</li>
+                </ul>
+            </div>
+            <div class="col-md-6">
+                <ul class="list-group">
+                    <li class="list-group-item">Git и системы контроля версий</li>
+                    <li class="list-group-item">soon...</li>
+                    <li class="list-group-item">Работа в команде</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Проекты -->
+    <div class="my-5">
+        <h2 class="text-center mb-4">Мои проекты</h2>
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Школьные кружки</h5>
+                        <p class="card-text">Платформа для управления школьными кружками и записи учеников.</p>
+                        <a href="{% url 'home' %}" class="btn btn-primary">Подробнее</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Блог</h5>
+                        <p class="card-text">Личный блог о моём пути в разработке и изучении технологий.</p>
+                        <a href="https://t.me/whowhosed" class="btn btn-primary">Подробнее</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Портфолио</h5>
+                        <p class="card-text">Сайт-портфолио с моими работами и достижениями.</p>
+                        <a href="https://github.com/sal1hov" class="btn btn-primary">Подробнее</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Контакты -->
+    <div class="my-5">
+        <h2 class="text-center mb-4">Связаться со мной</h2>
+        <div class="text-center">
+            <p>Если у вас есть вопросы, предложения или вы хотите поддержать меня, напишите мне:</p>
+            <a href="mailto:nhtxwd@gmail.com" class="btn btn-outline-primary">Написать на почту</a>
+            <a href="hhttps://github.com/sal1hov" target="_blank" class="btn btn-outline-secondary ml-2">Мой GitHub</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
