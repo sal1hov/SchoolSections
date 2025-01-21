@@ -1,0 +1,29 @@
+.animation-step {
+    display: none;
+    margin-bottom: 20px;
+    position: relative;
+    transition: opacity 0.5s ease;
+}
+
+.draggable {
+    position: absolute;
+    cursor: grab;
+    transition: transform 0.2s ease, opacity 0.5s ease;
+    border: 2px dashed #ccc;
+    padding: 10px;
+    background-color: #f9f9f9;
+}
+
+.draggable:active {
+    cursor: grabbing;
+}
+
+.resize-handle {
+    width: 10px;
+    height: 10px;
+    background: red;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    cursor: se-resize;
+}

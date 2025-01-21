@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center">Интерактивный показ работы сервиса</h1>
+    <div class="row mt-4">
+        <div class="col-md-8 offset-md-2">
+            <!-- Контейнер для этапов анимации -->
+            <div id="animation-container" class="text-center">
+                <!-- Этап 1: Регистрация -->
+                <div id="step-1" class="animation-step">
+                    <h3>1. Регистрация пользователей</h3>
+                    <div id="user-registration" class="draggable">
+                        <p>Перетащите сюда изображение пользователя</p>
+                    </div>
+                </div>
+
+                <!-- Этап 2: Утверждение родителем -->
+                <div id="step-2" class="animation-step">
+                    <h3>2. Утверждение родителем</h3>
+                    <div id="parent-approval" class="draggable">
+                        <p>Перетащите сюда изображение родителя</p>
+                    </div>
+                </div>
+
+                <!-- Этап 3: Утверждение классным руководителем -->
+                <div id="step-3" class="animation-step">
+                    <h3>3. Утверждение классным руководителем</h3>
+                    <div id="teacher-approval" class="draggable">
+                        <p>Перетащите сюда изображение учителя</p>
+                    </div>
+                </div>
+
+                <!-- Этап 4: Выбор и запись в кружок -->
+                <div id="step-4" class="animation-step">
+                    <h3>4. Выбор и запись в кружок</h3>
+                    <div id="club-selection" class="draggable">
+                        <p>Перетащите сюда изображение кружка</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Управление анимацией -->
+            <div class="mt-3">
+                <label for="speed-control">Скорость анимации:</label>
+                <input type="range" id="speed-control" min="1" max="10" value="5">
+            </div>
+
+            <!-- Загрузка изображения пользователя -->
+            <div class="mt-3">
+                <label for="user-image-upload">Загрузите фото пользователя (JPG, до 300 KB):</label>
+                <input type="file" id="user-image-upload" accept="image/jpeg">
+            </div>
+
+            <!-- Кнопки управления -->
+            <div class="mt-3 text-center">
+                <button id="start-animation" class="btn btn-primary">Начать анимацию</button>
+                <button id="reset-animation" class="btn btn-secondary">Сбросить</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="{% static 'js/animation.js' %}"></script>
+{% endblock %}
