@@ -7,22 +7,37 @@
     <div class="form-group">
         <label for="id_username">Имя пользователя:</label>
         {{ form.username }}
+        {% if form.username.errors %}
+            <div class="alert alert-danger">{{ form.username.errors }}</div>
+        {% endif %}
     </div>
     <div class="form-group">
         <label for="id_encrypted_name">ФИО родителя:</label>
         {{ form.encrypted_name }}
+        {% if form.encrypted_name.errors %}
+            <div class="alert alert-danger">{{ form.encrypted_name.errors }}</div>
+        {% endif %}
     </div>
     <div class="form-group">
         <label for="id_student_name">ФИО учащегося:</label>
         {{ form.student_name }}
+        {% if form.student_name.errors %}
+            <div class="alert alert-danger">{{ form.student_name.errors }}</div>
+        {% endif %}
     </div>
     <div class="form-group">
         <label for="id_password1">Пароль:</label>
         {{ form.password1 }}
+        {% if form.password1.errors %}
+            <div class="alert alert-danger">{{ form.password1.errors }}</div>
+        {% endif %}
     </div>
     <div class="form-group">
         <label for="id_password2">Подтверждение пароля:</label>
         {{ form.password2 }}
+        {% if form.password2.errors %}
+            <div class="alert alert-danger">{{ form.password2.errors }}</div>
+        {% endif %}
     </div>
     <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
 </form>

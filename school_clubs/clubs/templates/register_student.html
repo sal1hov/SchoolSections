@@ -1,28 +1,50 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h2>Регистрация классного руководителя</h2>
+<h2>Регистрация учащегося</h2>
 <form method="post">
     {% csrf_token %}
     <div class="form-group">
         <label for="id_username">Имя пользователя:</label>
         {{ form.username }}
+        {% if form.username.errors %}
+            <div class="alert alert-danger">{{ form.username.errors }}</div>
+        {% endif %}
     </div>
     <div class="form-group">
-        <label for="id_encrypted_name">ФИО учителя:</label>
+        <label for="id_encrypted_name">ФИО учащегося:</label>
         {{ form.encrypted_name }}
+        {% if form.encrypted_name.errors %}
+            <div class="alert alert-danger">{{ form.encrypted_name.errors }}</div>
+        {% endif %}
+    </div>
+    <div class="form-group">
+        <label for="id_school_ticket_number">Номер школьного билета:</label>
+        {{ form.school_ticket_number }}
+        {% if form.school_ticket_number.errors %}
+            <div class="alert alert-danger">{{ form.school_ticket_number.errors }}</div>
+        {% endif %}
     </div>
     <div class="form-group">
         <label for="id_grade">Класс:</label>
         {{ form.grade }}
+        {% if form.grade.errors %}
+            <div class="alert alert-danger">{{ form.grade.errors }}</div>
+        {% endif %}
     </div>
     <div class="form-group">
         <label for="id_password1">Пароль:</label>
         {{ form.password1 }}
+        {% if form.password1.errors %}
+            <div class="alert alert-danger">{{ form.password1.errors }}</div>
+        {% endif %}
     </div>
     <div class="form-group">
         <label for="id_password2">Подтверждение пароля:</label>
         {{ form.password2 }}
+        {% if form.password2.errors %}
+            <div class="alert alert-danger">{{ form.password2.errors }}</div>
+        {% endif %}
     </div>
     <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
 </form>
