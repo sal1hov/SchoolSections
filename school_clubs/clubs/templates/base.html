@@ -25,6 +25,9 @@
             padding: 20px 0;
             text-align: center;
         }
+        footer .btn {
+            margin: 5px;
+        }
     </style>
 </head>
 <body>
@@ -81,9 +84,14 @@
 
     <!-- Подвал -->
     <footer>
-        <p>&copy; 2025 Ахметгалиев. Все права защищены.</p>
+        <div class="container">
+            <p>&copy; 2025 Ахметгалиев. Все права защищены.</p>
+            <div class="mt-2">
+                <a href="{% url 'about_author' %}" class="btn btn-outline-secondary">Об авторе</a>
+                <a href="https://github.com/sal1hov/SchoolSections" target="_blank" class="btn btn-outline-secondary">Проект на GitHub</a>
+            </div>
+        </div>
     </footer>
 
-    <script src="{% static 'js/animation.js' %}"></script>
 </body>
 </html>
